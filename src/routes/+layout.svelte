@@ -1,11 +1,10 @@
 <script>
 	import '../app.postcss';
+	import Nav from './Nav.svelte';
 </script>
 
-<div class="flex flex-wrap h-screen bg-slate-900">
+<div class="flex flex-wrap h-screen bg-slate-900 font-mono text-sky-100 p-10">
 
-	<div class="h-12 w-full bg-white">
-		<h2>nav</h2>
-	</div>
+	<Nav />
 	<slot />
 </div>
