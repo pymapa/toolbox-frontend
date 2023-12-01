@@ -14,7 +14,7 @@
 
 <div class="flex h-12 w-full justify-between">
   <div>
-    <Icon src={RiBuildingsHomeGearFill} size="2rem" color={'rgb(224 242 254'} />
+    <a href="/"><Icon src={RiBuildingsHomeGearFill} size="2rem" color={'rgb(224 242 254'} /></a>
   </div>
 
   {#if $page.data.session}
