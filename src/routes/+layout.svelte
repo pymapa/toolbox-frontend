@@ -1,9 +1,9 @@
 <script>
-	import '../app.postcss';
-	import Nav from './Nav.svelte';
+	import '../app.css';
+	import Nav from '$lib/components/Nav.svelte';
 </script>
 
-<div class="flex flex-wrap h-screen bg-slate-900 font-mono text-sky-100 p-10">
+<div class="flex flex-wrap h-screen">
 
 	<Nav />
 	<slot />
