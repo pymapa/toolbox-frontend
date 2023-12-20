@@ -1,6 +1,5 @@
-import { redirect } from '@sveltejs/kit';
 import { setCurrentUser } from '$lib/auth';
-import { getStravaUser } from '$lib/client/strava';
+import { getAccessTokenWithCode } from '$lib/client/strava';
 
 /** @type {import('./$types').PageServerLoad} */
 export const load = async ({ url, cookies }) => {
@@ -9,21 +8,22 @@ export const load = async ({ url, cookies }) => {
 
 	if (error || code === null) {
 		console.log('Authorization failed, error: ', error);
-		throw redirect(307, '/login');
+		return { status: 307, redirect: '/login' };
 	}
 
 	try {
-		const stravaUser = await getStravaUser(code);
+		const stravaUser = await getAccessTokenWithCode(code);
 
-    setCurrentUser(stravaUser);
-    
+		setCurrentUser(stravaUser);
+
 		setCookie('strava_access_token', stravaUser.stravaAccessToken, cookies);
 		setCookie('strava_refresh_token', stravaUser.stravaRefreshToken, cookies);
 
-    throw redirect(307, '/dashboard');
+		return { status: 200 };
 
 	} catch (error) {
-		throw redirect(307, '/login');
+		console.log('Error while getting access token: ', error);
+		return { status: 307, redirect: '/login' };
 	}
 };
 
@@ -32,7 +32,7 @@ export const load = async ({ url, cookies }) => {
  * @param {string} value - The value of the cookie.
  * @param {import('@sveltejs/kit').Cookies} cookies - The cookies object.
  */
-const setCookie = (name, value, cookies ) => {
+const setCookie = (name, value, cookies) => {
 	cookies.set(name, value, {
 		path: '/',
 		httpOnly: true,
@@ -41,4 +41,4 @@ const setCookie = (name, value, cookies ) => {
 		expires: new Date(Date.now() + 2592000000)
 	});
 }
-	
+

@@ -1,15 +1,11 @@
 <script>
-	import { redirect } from '@sveltejs/kit';
-	import { setContext } from 'svelte';
-	import { writable } from 'svelte/store';
+  import { onMount } from "svelte";
+  import { goto } from "$app/navigation";
+	import Loader from "$lib/components/Loader.svelte";
 
-	/** @type {import('./$types').PageData} */
-	export let data;
-
-	const user = writable();
-	$: user.set(data.stravaUser);
-
-	setContext('user', user);
-
-  // throw redirect(307, '/dashboard');
+  onMount(() => {
+    goto("/dashboard");
+  });
 </script>
+
+<Loader message="Redirecting..." />
