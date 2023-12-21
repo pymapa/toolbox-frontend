@@ -1,4 +1,3 @@
-import { setCurrentUser } from '$lib/auth';
 import { getAccessTokenWithCode } from '$lib/client/strava';
 
 /** @type {import('./$types').PageServerLoad} */
@@ -13,8 +12,6 @@ export const load = async ({ url, cookies }) => {
 
 	try {
 		const stravaUser = await getAccessTokenWithCode(code);
-
-		setCurrentUser(stravaUser);
 
 		setCookie('strava_access_token', stravaUser.stravaAccessToken, cookies);
 		setCookie('strava_refresh_token', stravaUser.stravaRefreshToken, cookies);

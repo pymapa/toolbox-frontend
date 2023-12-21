@@ -1,18 +1,23 @@
 <script>
-	import { page } from '$app/stores';
-  import Icon from "svelte-icons-pack/Icon.svelte";
-	import BiLogIn from 'svelte-icons-pack/bi/BiLogIn';
-	import BiLogOut from 'svelte-icons-pack/bi/BiLogOut';
-	import { signOut } from '@auth/sveltekit/client';
 	import { goto } from '$app/navigation';
 
-	const handleLogout = () => {
-		signOut();
+	/** @type boolean */
+	export let loggedIn;
+
+	const handleLogout = async () => {
+		await fetch('/api/logout', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+		goto('/');
 	};
 
 	const handleLogin = () => {
 		goto('/login');
 	};
+
 </script>
 
 <div class="dropdown">
@@ -31,9 +36,13 @@
 		>
 	</div>
   <ul class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-    {#if !$page.data.session}
-			<a href="/login">
+		{#if !loggedIn}
+			<a href="#" on:click={handleLogin}>
 				Login
+			</a>
+		{:else}
+			<a href="#" on:click={handleLogout}>
+				Logout
 			</a>
 		{/if}
   </ul>

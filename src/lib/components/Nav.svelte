@@ -1,10 +1,10 @@
-<script lang="ts">
+<script>
 	import { signOut } from '@auth/sveltekit/client';
 	import UserDropdown from '$lib/components/UserDropdown.svelte';
 
-	const handleLogout = () => {
-		signOut();
-	};
+	/** @type boolean */
+	export let loggedIn;
+
 </script>
 
 <div class="navbar bg-base-900 h-16">
@@ -28,6 +28,6 @@
 		<a href="/" class="btn btn-ghost text-xl">ToolBox</a>
 	</div>
 	<div class="flex-none">
-		<UserDropdown />
+		<UserDropdown loggedIn={loggedIn} />
 	</div>
 </div>
